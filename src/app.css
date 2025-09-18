@@ -1,1 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Arimo:ital,wght@0,400..700;1,400..700&family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bellefair&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Gilda+Display&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Karla:ital,wght@0,200..800;1,200..800&family=Kumbh+Sans:wght@100..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Overpass:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Playwrite+MX+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Young+Serif&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alata&family=Arimo:ital,wght@0,400..700;1,400..700&family=Barlow+Semi+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Bellefair&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Edu+AU+VIC+WA+NT+Arrows:wght@400..700&family=Figtree:ital,wght@0,300..900;1,300..900&family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&family=Gilda+Display&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Karla:ital,wght@0,200..800;1,200..800&family=Kumbh+Sans:wght@100..900&family=League+Spartan:wght@100..900&family=Manrope:wght@200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Outfit:wght@100..900&family=Overpass:ital,wght@0,100..900;1,100..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Playwrite+MX+Guides&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik:ital,wght@0,300..900;1,300..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&family=Work+Sans:ital,wght@0,100..900;1,100..900&family=Young+Serif&display=swap');
 @import 'tailwindcss';
+
+
+@theme {
+    --color-neutral-900: hsl(243, 96%, 9%);
+    --color-neutral-800: hsl(243, 27%, 20%);
+    --color-neutral-700: hsl(243, 23%, 24%);
+    --color-neutral-600: hsl(243, 23%, 30%);
+    --color-neutral-300: hsl(240, 6%, 70%);
+    --color-neutral-200: hsl(250, 6%, 84%);
+    --color-neutral-0: hsl(0, 0%, 100%);
+
+    /* ### Orange */
+
+    --color-orange-500: hsl(28, 100%, 52%);
+
+    /* ### Blue */
+
+   --color-blue-500: hsl(233, 67%, 56%);
+    --color-blue-700: hsl(248, 70%, 36%);
+
+    /* fonts police */
+    /* others font */
+    --font-dm-sans: 'DM Sans', sans-serif;
+    --font-weight-300: 300;
+    --font-weight-500: 500;
+    --font-weight-600: 600;
+    --font-weight-700: 700;
+
+    /* title font */
+    --font-title-font : 'Bricolage Grotesque', sans-serif;
+}
+
+
+@layer base {
+    body {
+        background-color: var(--color-neutral-900);
+        color: var(--color-neutral-50);
+        font-family: var(--font-dm-sans);
+    }
+
+    p {
+        font-size: 1.2em;
+        line-height: 1.5;
+        font-weight: var(--font-weight-300);
+    }
+
+    h1, h2, h3, h4, h5 {
+        line-height: normal;
+    }
+
+    img {
+        max-width: 100%;
+        object-fit: cover;
+    }
+}
+
+.container {
+    max-width: 95%;
+    margin: 0 auto;
+
+    @media screen and (min-width: 40rem) {
+        max-width: 90%;
+    }
+
+    @media screen and (min-width: 1280px) {
+        max-width: 1280px;
+    }
+}
+
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-neutral-600) var(--color-neutral-800);
+}

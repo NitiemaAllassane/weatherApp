@@ -1,12 +1,19 @@
 <script lang="ts">
+	import Header from '$lib/components/Header.svelte';
+	import Footer from '$lib/components/Footer.svelte';
 	import '../app.css';
-	import favicon from '$lib/assets/favicon.svg';
 
 	let { children } = $props();
 </script>
 
 <svelte:head>
-	<link rel="icon" href={favicon} />
+	<title>Frontend Mentor | Weather app</title>
 </svelte:head>
 
-{@render children?.()}
+<Header  />
+<main>
+	<div class="container">
+		{@render children?.()}
+	</div>
+</main>
+<Footer  />
