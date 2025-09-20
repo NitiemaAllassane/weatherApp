@@ -31,6 +31,9 @@
 
     /* title font */
     --font-title-font : 'Bricolage Grotesque', sans-serif;
+
+    /* Beakpoints */
+    --breakpoint-xs: 375px;
 }
 
 
@@ -54,6 +57,10 @@
     img {
         max-width: 100%;
         object-fit: cover;
+    }
+
+    button, a {
+        user-select: none;
     }
 }
 

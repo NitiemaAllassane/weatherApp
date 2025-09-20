@@ -40,6 +40,7 @@
         {hour: "3 PM", info: "00°", iconImage: sunny},
         {hour: "3 PM", info: "00°", iconImage: sunny},
         {hour: "3 PM", info: "00°", iconImage: sunny},
+        
         {hour: "3 PM", info: "00°", iconImage: sunny},
         {hour: "3 PM", info: "00°", iconImage: sunny},
         {hour: "3 PM", info: "00°", iconImage: sunny},
@@ -54,7 +55,7 @@
 
 <main>
     <header class="mb-8 md:mb-16">
-        <h1 class=" text-5xl md:text-6xl font-700 font-title-font text-center mb-12">
+        <h1 class=" text-5xl xs:text-6xl font-700 font-title-font text-center mb-12">
             How's the sky looking today?
         </h1>
 
@@ -111,7 +112,7 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 lg:gap-6 mb-8">
                 {#each currentForecasts as currentWeather}
                     <article 
-                        class=" bg-neutral-800 p-4 md:p-6 rounded-xl border 
+                        class=" bg-neutral-800 p-3 xs:p-4 md:p-6 rounded-xl border 
                         border-neutral-600 break-words"
                     >
                         <div>
@@ -133,7 +134,7 @@
                 </h2>
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 md:gap-4">
                     {#each dailyForecasts as dailyWeather, index}
-                        <article class=" bg-neutral-800 border border-neutral-600 p-3 rounded-xl">
+                        <article class=" bg-neutral-800 border border-neutral-600 p-2 xs:p-3 rounded-xl">
                             <div>
                                 <h3 class="text-center font-300 text-lg">
                                     {dailyWeather.day}
@@ -165,7 +166,7 @@
                         <h2 class="text-xl font-500">Hourly forecast</h2>
                         <WeekButton  />
                     </header>
-                    <div class="grid grid-cols-1 gap-3 lg:overflow-auto lg:h-148 custom-scrollbar">
+                    <div class="grid grid-cols-1 gap-3 overflow-auto h-148 custom-scrollbar">
                         {#each hourlyForecasts as hourlyWeather}
                             <article class=" bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-1">
                                 <div class="flex items-center justify-between">
