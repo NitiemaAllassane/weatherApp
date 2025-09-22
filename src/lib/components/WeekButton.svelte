@@ -1,8 +1,12 @@
 <script lang="ts">
     import { fly } from "svelte/transition";
+    import { navigating } from "$app/state";
     import { clickOutside } from "$lib/actions/actions.svelte";
     import dropdownIcon from "$lib/assets/images/icon-dropdown.svg"; 
 
+
+    let { onLoading = navigating.to } = $props();
+    
     interface DaySwitcher  {
         day: string,
         id: number
@@ -33,11 +37,15 @@
     <button 
         class="flex items-center gap-2 bg-neutral-600 
         py-2 px-3 rounded cursor-pointer"
-
         onclick={toggleWeekMenu}
+        disabled={onLoading}
     >
         <span>
-            {selectedDay}
+            {#if onLoading}
+                __
+            {:else}
+                {selectedDay}
+            {/if}
         </span>
         <img 
             src={dropdownIcon} 
@@ -57,7 +65,7 @@
 
 {#snippet weekDropdown()}
     <div 
-        class="absolute right-0 mt-3 bg-neutral-800 border-2 border-neutral-600 
+        class="absolute right-0 mt-3 bg-neutral-800 border border-neutral-600 
         w-44 p-3 rounded-lg"
         transition:fly={{ y: -12, duration: 200 }}
     >

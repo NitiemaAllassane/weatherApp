@@ -37,6 +37,7 @@
                         name="city" 
                         id="city"
                         placeholder="Search for a city, e.g., New York"
+                        required
                         bind:value={cityName}
                         class="w-full px-2 outline-none font-500 text-lg cursor-pointer"
                         autocomplete="off"
