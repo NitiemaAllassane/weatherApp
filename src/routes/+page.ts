@@ -1,6 +1,7 @@
 import { getCityWeatherData } from "$lib/utils/api";
 import { error } from "@sveltejs/kit";
 
+
 export const load = async ({ url }) => {
     const cityName = url.searchParams.get("city")?.trim() ?? "Abidjan";
 
@@ -26,3 +27,4 @@ export const load = async ({ url }) => {
         });
     }
 };
+

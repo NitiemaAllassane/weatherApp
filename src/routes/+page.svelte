@@ -1,5 +1,6 @@
 <script lang="ts">
     import { navigating } from "$app/state";
+    import { fly } from "svelte/transition";
     import spinner from "$lib/assets/images/spinner.svg";
     import { getWeatherIcon } from "$lib/utils/weatherIcons.js";
     import { 
@@ -68,25 +69,37 @@
                             top-1/2 left-1/2 -translate-1/2 w-full md:p-16"
                         >
                             <div class="text-center md:text-start mb-4">
-                                <h2 class="text-3xl md:text-4xl font-600 mb-2">
+                                <h2 
+                                    class="text-3xl md:text-4xl font-600 mb-2" 
+                                    in:fly={{ y: 16, duration: 300, delay: 150 }}
+                                >
                                     <!-- Berlin, Germany -->
                                     {data.cityGeocoding.name}, {data.cityGeocoding.country}
                                 </h2>
-                                <p class="font-300 text-lg">
+                                <p 
+                                    class="font-300 text-lg"
+                                    in:fly={{ x: 24, duration: 300, delay: 300 }}
+                                >
                                     <!-- Tuesday, Aug 5, 2025 -->
                                     {data.weatherData.current.time.toDateString()}
                                 </p>
                             </div>
 
                             <div class="flex items-center">
-                                <figure class="w-24 h-24 md:w-32 md:h-32">
+                                <figure 
+                                    class="w-24 h-24 md:w-32 md:h-32"
+                                    in:fly={{ y: 20, duration: 300, delay: 300 }}
+                                >
                                     <img 
                                         src={currentWeatherIcon} 
                                         alt="Sunny Icon"
                                         class=" w-full h-full"
                                     >
                                 </figure>
-                                <h3 class=" font-700 text-6xl md:text-7xl italic">
+                                <h3 
+                                    class=" font-700 text-6xl md:text-7xl italic"
+                                    in:fly={{ x: 24, duration: 300, delay: 500 }}
+                                >
                                     <!-- 20° -->
                                     {data.weatherData.current.temperature_2m.toFixed(0)}°
                                 </h3>

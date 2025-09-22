@@ -1,6 +1,5 @@
 import { fetchWeatherApi } from 'openmeteo';
-import type { Geocoding, WeatherData } from "$lib/types/types";
-
+import type { Geocoding,  WeatherData} from '$lib/types/types';
 
 // Get city Geocoding
 export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
