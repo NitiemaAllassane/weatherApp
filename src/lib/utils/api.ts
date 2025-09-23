@@ -12,16 +12,16 @@ export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
         );
 
         if (!response.ok) {
-            throw new Error(`Unable to fetch geocoding for "${cityName}"`);
+            throw new Error(`Unable to fetch geocoding for "${cityName}" !`);
         }
 
-        const data = await response.json();
+        const geocodingData = await response.json();
 
-        if (!data.results || data.results.length === 0) {
-            throw new Error(`No geocoding results found for "${cityName}"`);
+        if (!geocodingData.results || geocodingData.results.length === 0) {
+            throw new Error(`No search result found for "${cityName}"!`);
         }
 
-        const result = data.results[0];
+        const result = geocodingData.results[0];
 
         return {
             latitude: result.latitude,
@@ -42,20 +42,33 @@ export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
 }
 
 
+
 // Get city weather datas
-export async function getCityWeatherData(cityName: string){
+export async function getCityWeatherData(
+    latitude: number, 
+    longitude: number, 
+    timezone: string
+) {
+
+    const params = {
+        "latitude": latitude,
+        "longitude": longitude,
+        "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min"],
+        "hourly": ["temperature_2m", "weather_code", "is_day"],
+        "current": [
+            "temperature_2m", 
+            "relative_humidity_2m", 
+            "apparent_temperature", 
+            "is_day", 
+            "precipitation", 
+            "weather_code", 
+            "wind_speed_10m"
+        ],
+        "timezone": timezone,
+    };
+
     try {
 
-        const cityGeocoding: Geocoding = await getCityGeocoding(cityName);
-
-        const params = {
-            "latitude": cityGeocoding.latitude,
-            "longitude": cityGeocoding.longitude,
-            "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min"],
-            "hourly": ["temperature_2m", "weather_code", "is_day"],
-            "current": ["temperature_2m", "relative_humidity_2m", "apparent_temperature", "is_day", "precipitation", "weather_code", "wind_speed_10m"],
-            "timezone": cityGeocoding.timezone,
-        };
         const url = "https://api.open-meteo.com/v1/forecast";
         const responses = await fetchWeatherApi(url, params);
 
@@ -82,10 +95,12 @@ export async function getCityWeatherData(cityName: string){
         const hourly = response.hourly()!;
         const daily = response.daily()!;
 
+        // cheack if hourly datas exist
         const hourlyTemp = assertExists(hourly.variables(0)?.valuesArray(), "Missing hourly.temperature_2m");
         const hourlyWeatherCode = assertExists(hourly.variables(1)?.valuesArray(), "Missing hourly.weather_code");
         const hourlyIsDay = assertExists(hourly.variables(2)?.valuesArray(), "Missing hourly.is_day");
 
+        // cheack if daily datas exist
         const dailyWeatherCode = assertExists(daily.variables(0)?.valuesArray(), "Missing daily.weather_code");
         const dailyTempMax = assertExists(daily.variables(1)?.valuesArray(), "Missing daily.temperature_2m_max");
         const dailyTempMin = assertExists(daily.variables(2)?.valuesArray(), "Missing daily.temperature_2m_min");
@@ -122,18 +137,17 @@ export async function getCityWeatherData(cityName: string){
 
 
         return {
-            cityGeocoding,
             weatherData
         };
 
     } catch (error) {
         console.error("Failed to fetch city weather data:", error);
-        throw new Error("No search results found");
+        throw new Error("Failed to fetch city weather data");
     }
 }
 
 
-
+// Function to check if weather datas exist
 function assertExists<T>(v: T | null | undefined, message: string): T {
   if (v === null || v === undefined) throw new Error(message);
   return v;

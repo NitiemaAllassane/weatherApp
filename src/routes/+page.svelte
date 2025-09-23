@@ -1,8 +1,15 @@
 <script lang="ts">
-    import { navigating } from "$app/state";
+    /**
+     * TODO: Gerer les erreurs.
+     * TODO: Dynamiser le contenue du dropdown de recherche
+     * TODO: Switch entre les jours avec WeekButton
+     * TODO: Convertions des données avec Units Button
+    */
+    import { navigating, page } from "$app/state";
     import { fly } from "svelte/transition";
     import spinner from "$lib/assets/images/spinner.svg";
     import { getWeatherIcon } from "$lib/utils/weatherIcons.js";
+
     import { 
         mapCurrentForecasts, 
         mapDailyForecasts,
@@ -11,7 +18,6 @@
 
     import SearchForm from "$lib/components/SearchForm.svelte";
     import WeekButton from "$lib/components/WeekButton.svelte";
-    import sunny from "$lib/assets/images/icon-sunny.webp";
     import bgTodayLarge from "$lib/assets/images/bg-today-large.svg";
     import bgTodaySmall from "$lib/assets/images/bg-today-small.svg";
 
@@ -20,7 +26,7 @@
 
     const currentForecasts = $derived(mapCurrentForecasts(data.weatherData));
     const dailyForecasts = $derived(mapDailyForecasts(data.weatherData));
-    const hourlyForecasts = $derived(mapHourlyForecasts(data.weatherData))
+    const hourlyForecasts = $derived(mapHourlyForecasts(data.weatherData));
 
     const currentWeatherIcon = $derived(getWeatherIcon(data.weatherData.current.weather_code));
 </script>
@@ -28,7 +34,7 @@
 
 <main>
     <header class="mb-8 md:mb-16">
-        <h1 class=" text-5xl xs:text-6xl font-700 font-title-font text-center mb-12">
+        <h1 class=" text-5xl xs:text-6xl font-700 font-bricolage text-center mb-12">
             How's the sky looking today?
         </h1>
 
@@ -74,7 +80,7 @@
                                     in:fly={{ y: 16, duration: 300, delay: 150 }}
                                 >
                                     <!-- Berlin, Germany -->
-                                    {data.cityGeocoding.name}, {data.cityGeocoding.country}
+                                    {data.geocoding.name}, {data.geocoding.country}
                                 </h2>
                                 <p 
                                     class="font-300 text-lg"

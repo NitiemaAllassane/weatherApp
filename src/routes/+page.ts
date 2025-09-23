@@ -1,4 +1,4 @@
-import { getCityWeatherData } from "$lib/utils/api";
+import { getCityWeatherData, getCityGeocoding } from "$lib/utils/api";
 import { error } from "@sveltejs/kit";
 
 
@@ -11,19 +11,32 @@ export const load = async ({ url }) => {
         });
     } else if (cityName.length < 3) {
         return error(400, {
-            message: "City name not valid"
+            message: "Please enter a valid city name"
         });
     }
 
     try {
-        const weatherData = await getCityWeatherData(cityName);
+        const geocoding = await getCityGeocoding(cityName);
+        const weatherData = await getCityWeatherData(
+            geocoding.latitude, 
+            geocoding.longitude, 
+            geocoding.timezone
+        );
 
         return {
-            ...weatherData
+            geocoding,
+            ...weatherData,
         }
     } catch (err) {
-        return error(500, {
-            message: err instanceof Error ? err.message : "Internal server error"
+           
+        if (err instanceof Error && err.message.includes("No search result found")) {
+            return error(404, { 
+                message: `No search result found !` 
+            });
+        }
+        
+        return error(500, { 
+            message: "Weather service temporarily unavailable"
         });
     }
 };

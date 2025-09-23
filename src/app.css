@@ -30,7 +30,7 @@
     --font-weight-700: 700;
 
     /* title font */
-    --font-title-font : 'Bricolage Grotesque', sans-serif;
+    --font-bricolage : 'Bricolage Grotesque', sans-serif;
 
     /* Beakpoints */
     --breakpoint-xs: 375px;
