@@ -25,7 +25,7 @@ export const load = async ({ url }) => {
 
         return {
             geocoding,
-            ...weatherData,
+            weatherData,
         }
     } catch (err) {
            

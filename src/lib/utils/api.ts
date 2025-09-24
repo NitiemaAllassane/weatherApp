@@ -42,6 +42,42 @@ export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
 }
 
 
+// Search Cities for suggesing to users
+export async function searchCities(query: string, limit: number = 5): Promise<Geocoding[]> {
+    if (!query || query.length < 2) return [];
+
+    try {
+        const response = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+            query
+            )}&count=${limit}&language=en&format=json`
+        );
+
+        if (!response.ok) {
+            throw new Error(`Failed to search cities for "${query}"`);
+        }
+
+        const data = await response.json();
+
+        if (!data.results || data.results.length === 0) {
+            return [];
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return data.results.map((result: any) => ({
+            latitude: result.latitude,
+            longitude: result.longitude,
+            name: result.name,
+            country: result.country,
+            timezone: result.timezone,
+        }));
+    } catch (error) {
+        console.error("City search error:", error);
+        return [];
+    }
+}
+
+
 
 // Get city weather datas
 export async function getCityWeatherData(
@@ -136,9 +172,7 @@ export async function getCityWeatherData(
         };
 
 
-        return {
-            weatherData
-        };
+        return weatherData;
 
     } catch (error) {
         console.error("Failed to fetch city weather data:", error);
@@ -149,6 +183,6 @@ export async function getCityWeatherData(
 
 // Function to check if weather datas exist
 function assertExists<T>(v: T | null | undefined, message: string): T {
-  if (v === null || v === undefined) throw new Error(message);
-  return v;
+    if (v === null || v === undefined) throw new Error(message);
+    return v;
 }

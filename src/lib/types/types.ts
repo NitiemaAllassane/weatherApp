@@ -39,7 +39,6 @@ export interface HourlyForecast {
 }
 
 
-
 export interface DailyData {
     time: Date[];
     weather_code: Float32Array;
@@ -55,10 +54,17 @@ export interface DailyForecast {
 }
 
 
-
-
 export interface WeatherData {
     current: CurrentData;
     hourly: HourlyData;
     daily: DailyData;
 }
+
+
+export interface CitySuggestion {
+  name: string;
+  country: string;
+  latitude: number;
+  longitude: number;
+}
+
