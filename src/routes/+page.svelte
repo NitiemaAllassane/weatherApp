@@ -1,7 +1,5 @@
 <script lang="ts">
     /**
-     * TODO: Gerer les erreurs.
-     * TODO: Dynamiser le contenue du dropdown de recherche
      * TODO: Switch entre les jours avec WeekButton
      * TODO: Convertions des données avec Units Button
     */
@@ -23,10 +21,12 @@
 
 
     let { data } = $props();
+    let selectedDay = $state("Today");
+    let onPageLoading = $derived(navigating.to);
 
     const currentForecasts = $derived(mapCurrentForecasts(data.weatherData));
     const dailyForecasts = $derived(mapDailyForecasts(data.weatherData));
-    const hourlyForecasts = $derived(mapHourlyForecasts(data.weatherData));
+    const hourlyForecasts = $derived(mapHourlyForecasts(data.weatherData, selectedDay));
 
     const currentWeatherIcon = $derived(getWeatherIcon(data.weatherData.current.weather_code));
 </script>
@@ -45,7 +45,7 @@
         <section>
             <header class="mb-8">
                 <div class="relative">
-                    {#if navigating.to}
+                    {#if onPageLoading}
                         <div class="flex items-center justify-center bg-neutral-800 w-full h-[285px] rounded-2xl">
                            <div class=" flex flex-col items-center">
                                 <img 
@@ -146,7 +146,7 @@
                 <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-7 gap-3 md:gap-4">
                     {#each dailyForecasts as dailyWeather, index}
                         <article class=" bg-neutral-800 border border-neutral-600 p-2 xs:p-3 rounded-xl">
-                            {#if navigating.to}
+                            {#if onPageLoading}
                                 <div class="h-40"></div>
                             {:else}
                                 <div>
@@ -179,12 +179,16 @@
                 <div>
                     <header class="flex items-center justify-between mb-6">
                         <h2 class="text-xl font-500">Hourly forecast</h2>
-                        <WeekButton onLoading={navigating.to} />
+                        <WeekButton 
+                            onLoading={onPageLoading} 
+                            {selectedDay}
+                            onDayChange={(day: string) => selectedDay = day}
+                        />
                     </header>
                     <div class="grid grid-cols-1 gap-3 overflow-auto h-148 custom-scrollbar">
                         {#each hourlyForecasts as hourlyWeather}
                             <article class=" bg-neutral-700 border border-neutral-600 rounded-lg px-3 py-1">
-                                {#if navigating.to}
+                                {#if onPageLoading}
                                     <div class=" py-5"></div>
                                 {:else}
                                     <div class="flex items-center justify-between">

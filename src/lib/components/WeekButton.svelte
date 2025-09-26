@@ -5,26 +5,52 @@
     import dropdownIcon from "$lib/assets/images/icon-dropdown.svg"; 
 
 
-    let { onLoading = navigating.to } = $props();
+    let { 
+        onLoading = navigating.to, 
+        selectedDay, 
+        onDayChange 
+    } = $props();
     
     interface DaySwitcher  {
         day: string,
         id: number
     }
+    
 
-    const weekSwitchers: DaySwitcher[] = [
-        {day: "Monday", id: 1},
-        {day: "Tuesday", id: 2},
-        {day: "Wednesday", id: 3},
-        {day: "Thursday", id: 4},
-        {day: "Friday", id: 5},
-        {day: "Saturday", id: 6},
-        {day: "Sunday", id: 7},
-    ];
+    function generateDaysOrder(): DaySwitcher[] {
+        const today = new Date();
+        const daysOfWeek = [
+            "Sunday", 
+            "Monday", 
+            "Tuesday", 
+            "Wednesday", 
+            "Thursday", 
+            "Friday", 
+            "Saturday"
+        ];
+        
+        const result: DaySwitcher[] = [
+            {day: "Today", id: 0}
+        ];
+        
+        // Add the 6 days following
+        for (let i = 1; i <= 6; i++) {
+            const futureDate = new Date(today);
+            futureDate.setDate(today.getDate() + i);
+            const dayName = daysOfWeek[futureDate.getDay()];
+            
+            result.push({
+                day: dayName,
+                id: i
+            });
+        }
+        
+        return result;
+    }
 
-    let selectedDay = $state(weekSwitchers[0].day);
+    const weekSwitchers: DaySwitcher[] = generateDaysOrder();
+
     let isWeekDropdownOpen = $state(false);
-
     const toggleWeekMenu = () => isWeekDropdownOpen = !isWeekDropdownOpen;
 </script>
 
@@ -33,7 +59,7 @@
     class="relative"
     use:clickOutside={() => isWeekDropdownOpen = false}
 >
-
+    <!-- Week button -->
     <button 
         class="flex items-center gap-2 bg-neutral-600 
         py-2 px-3 rounded cursor-pointer"
@@ -77,7 +103,8 @@
                     {selectedDay === week.day ? 'bg-neutral-600 ' : ''} "
 
                     onclick={() => {
-                        selectedDay = week.day
+                        onDayChange(week.day);
+                        isWeekDropdownOpen = false;
                     }}
                 >
                     <span class=" font-500">

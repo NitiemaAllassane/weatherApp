@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 import { getWeatherIcon } from "./weatherIcons";
 
 import type { 
@@ -9,6 +10,7 @@ import type {
 } from "$lib/types/types";
 
 
+// Map current forecast
 export function mapCurrentForecasts(weatherData: WeatherData): CurrentForecast[] {
     const current: CurrentData = weatherData.current;
 
@@ -21,7 +23,7 @@ export function mapCurrentForecasts(weatherData: WeatherData): CurrentForecast[]
 }
 
 
-
+// Map daily forecast
 export function mapDailyForecasts(weatherData: WeatherData): DailyForecast[] {
     const { daily } = weatherData;
 
@@ -45,24 +47,54 @@ export function mapDailyForecasts(weatherData: WeatherData): DailyForecast[] {
 
 
 
-export function mapHourlyForecasts(weatherData: WeatherData): HourlyForecast[] {
+/**
+ * *Map hourly data
+ *
+ * @param weatherData 
+ * @param selectedDay 
+ * @returns 
+ */
+export function mapHourlyForecasts(
+    weatherData: WeatherData,
+    selectedDay: string = "Today"
+): HourlyForecast[] {
+
     const { hourly } = weatherData;
 
-    return hourly.time.slice(0, 24).map((date, index) => {
+    let filteredIndex: number[] = [];
+
+    hourly.time.forEach((date, index) => {
+        if (selectedDay === "Today") {
+            const firstDateInHourlyTimes = hourly.time[0];
+            const isToday = firstDateInHourlyTimes.toDateString() === date.toDateString();
+
+            if (isToday) {
+                filteredIndex.push(index);
+            }
+        } else {
+            const dayOfWeek = date.toLocaleDateString('en-US', {weekday: 'long'});
+            if (dayOfWeek === selectedDay) {
+                filteredIndex.push(index);
+            }
+        }
+    });
+
+    return filteredIndex.map((index) => {
+        const date = hourly.time[index];
         const hour = date.toLocaleTimeString("en-US", {
             hour: "numeric",
             hour12: true
         });
 
-        const tempVal = hourly.temperature_2m?.[index];
+        const temperatureValue = hourly.temperature_2m?.[index];
         const weatherCode = hourly.weather_code?.[index] ?? 0;
 
-        console.log(tempVal, weatherCode);
+        console.log(temperatureValue, weatherCode);
         
 
         return {
             hour,
-            temperature: tempVal !== undefined ? tempVal.toFixed(0) + "°" : "0°",
+            temperature: temperatureValue !== undefined ? temperatureValue.toFixed(0) + "°" : "0°",
             weatherIcon: getWeatherIcon(weatherCode)
         };
     });

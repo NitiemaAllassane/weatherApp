@@ -1,45 +1,6 @@
 import { fetchWeatherApi } from 'openmeteo';
 import type { Geocoding,  WeatherData} from '$lib/types/types';
 
-// Get city Geocoding
-export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
-    try {
-
-        const response = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-            cityName
-            )}&count=1&language=en&format=json`
-        );
-
-        if (!response.ok) {
-            throw new Error(`Unable to fetch geocoding for "${cityName}" !`);
-        }
-
-        const geocodingData = await response.json();
-
-        if (!geocodingData.results || geocodingData.results.length === 0) {
-            throw new Error(`No search result found for "${cityName}"!`);
-        }
-
-        const result = geocodingData.results[0];
-
-        return {
-            latitude: result.latitude,
-            longitude: result.longitude,
-            name: result.name,
-            country: result.country,
-            timezone: result.timezone,
-        };
-
-    } catch (error) {
-        console.error("Geocoding fetch error:", error);
-        throw new Error(
-            error instanceof Error
-            ? error.message
-            : "Unexpected error while fetching geocoding"
-        );
-    }
-}
 
 
 // Search Cities for suggesing to users
@@ -185,4 +146,46 @@ export async function getCityWeatherData(
 function assertExists<T>(v: T | null | undefined, message: string): T {
     if (v === null || v === undefined) throw new Error(message);
     return v;
+}
+
+
+
+// Get city Geocoding
+export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
+    try {
+
+        const response = await fetch(
+            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+            cityName
+            )}&count=1&language=en&format=json`
+        );
+
+        if (!response.ok) {
+            throw new Error(`Unable to fetch geocoding for "${cityName}" !`);
+        }
+
+        const geocodingData = await response.json();
+
+        if (!geocodingData.results || geocodingData.results.length === 0) {
+            throw new Error(`No search result found for "${cityName}"!`);
+        }
+
+        const result = geocodingData.results[0];
+
+        return {
+            latitude: result.latitude,
+            longitude: result.longitude,
+            name: result.name,
+            country: result.country,
+            timezone: result.timezone,
+        };
+
+    } catch (error) {
+        console.error("Geocoding fetch error:", error);
+        throw new Error(
+            error instanceof Error
+            ? error.message
+            : "Unexpected error while fetching geocoding"
+        );
+    }
 }
