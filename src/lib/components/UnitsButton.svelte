@@ -1,6 +1,7 @@
 <script lang="ts">
     import { fly } from "svelte/transition";
     import { clickOutside } from "$lib/actions/actions.svelte";
+    import { unitSystem } from "$lib/states/unit.svelte";
 
     import unitIcon from "$lib/assets/images/icon-units.svg";
     import dropdownIcon from "$lib/assets/images/icon-dropdown.svg";
@@ -39,6 +40,10 @@
 
     let isUnitsDropdownOpen = $state(false);
     const toggleUnitsDropdown = () => isUnitsDropdownOpen = !isUnitsDropdownOpen;
+    
+    // units switchers functions
+    const switchToMetric = () => unitSystem.unit = "metric";
+    const switchToImperial = () => unitSystem.unit = "imperial";
 </script>
 
 
@@ -46,7 +51,7 @@
     class="relative"
     use:clickOutside={() => isUnitsDropdownOpen = false}
 >
-
+    <!-- Button to open units dropdown -->
     <button
         class="bg-neutral-800 py-2 px-3 md:py-2.5 md:px-5 rounded cursor-pointer"
         aria-label="Open units dropdown"
@@ -83,9 +88,27 @@
         transition:fly={{ y: -12, duration: 200 }}
     >
         <div>
-            <button class=" w-full text-start hover:bg-neutral-600 px-2 py-1 rounded-lg cursor-pointer">
+            <!-- Swich button -->
+            <button 
+                class=" w-full text-start hover:bg-neutral-600 px-2 
+                py-1 rounded-lg cursor-pointer"
+                onclick={() => {
+                    if (unitSystem.unit === "metric") {
+                        switchToImperial();
+                        isUnitsDropdownOpen = false;
+                        return;
+                    }
+
+                    switchToMetric();
+                    isUnitsDropdownOpen = false;
+                }}
+            >
                 <span class="text-neutral-0 font-500 text-lg">
-                    Switch to Imperial
+                    {
+                        unitSystem.unit === "metric" 
+                        ? "Switch to Imperial" 
+                        : "Switch to Metric"
+                    }
                 </span>
             </button>
 
@@ -98,8 +121,10 @@
 
                         <!-- metric buttons -->
                         <button 
-                            class="flex items-center justify-between bg-neutral-600 
+                            class="flex items-center justify-between 
+                            {unitSystem.unit === "metric" ? "bg-neutral-600": ""}
                             hover:bg-neutral-600 px-2 py-1 rounded-lg"
+                            onclick={switchToMetric}
                         >
                             <span>
                                 {
@@ -108,19 +133,23 @@
                                     unit.metric.symbol
                                 }
                             </span>
-                            <span>
-                                <img 
-                                    src={checkMarkIcon}
-                                    alt="CheckMarkIcon"
-                                    aria-hidden="true"
-                                >
-                            </span>
+                            {#if unitSystem.unit === "metric"}
+                                <span>
+                                    <img 
+                                        src={checkMarkIcon}
+                                        alt="CheckMarkIcon"
+                                        aria-hidden="true"
+                                    >
+                                </span>
+                            {/if}
                         </button>
 
                         <!-- imperial buttons -->
                         <button 
                             class="flex items-center justify-between hover:bg-neutral-600 
+                            {unitSystem.unit === "imperial" ? "bg-neutral-600": ""}
                             px-2 py-1 rounded-lg"
+                            onclick={switchToImperial}
                         >
                             <span>
                                 {
@@ -129,13 +158,15 @@
                                     unit.imperial.symbol
                                 }
                             </span>
-                            <!-- <span>
-                                <img 
-                                    src={checkMarkIcon}
-                                    alt="CheckMarkIcon"
-                                    aria-hidden="true"
-                                >
-                            </span> -->
+                            {#if unitSystem.unit === "imperial"}
+                                <span>
+                                    <img 
+                                        src={checkMarkIcon}
+                                        alt="CheckMarkIcon"
+                                        aria-hidden="true"
+                                    >
+                                </span>
+                            {/if}
                         </button>
                     </div>
                 </div>

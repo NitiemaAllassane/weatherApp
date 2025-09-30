@@ -68,3 +68,7 @@ export interface CitySuggestion {
   longitude: number;
 }
 
+// Units System
+export interface UnitSystems {
+    unit: "metric" | "imperial"
+}

@@ -1,8 +1,4 @@
 <script lang="ts">
-    /**
-     * TODO: Switch entre les jours avec WeekButton
-     * TODO: Convertions des données avec Units Button
-    */
     import { navigating, page } from "$app/state";
     import { fly } from "svelte/transition";
     import spinner from "$lib/assets/images/spinner.svg";
@@ -14,10 +10,13 @@
         mapHourlyForecasts
     } from "$lib/utils/mappers.js";
 
+    import { format } from "$lib/utils/converters.js";
+
     import SearchForm from "$lib/components/SearchForm.svelte";
     import WeekButton from "$lib/components/WeekButton.svelte";
     import bgTodayLarge from "$lib/assets/images/bg-today-large.svg";
     import bgTodaySmall from "$lib/assets/images/bg-today-small.svg";
+
 
 
     let { data } = $props();
@@ -28,6 +27,7 @@
     const dailyForecasts = $derived(mapDailyForecasts(data.weatherData));
     const hourlyForecasts = $derived(mapHourlyForecasts(data.weatherData, selectedDay));
 
+    const currentTemperature = $derived(format(data.weatherData.current.temperature_2m, "temperature"));
     const currentWeatherIcon = $derived(getWeatherIcon(data.weatherData.current.weather_code));
 </script>
 
@@ -107,7 +107,7 @@
                                     in:fly={{ x: 24, duration: 300, delay: 500 }}
                                 >
                                     <!-- 20° -->
-                                    {data.weatherData.current.temperature_2m.toFixed(0)}°
+                                    {currentTemperature}
                                 </h3>
                             </div>
                         </div>

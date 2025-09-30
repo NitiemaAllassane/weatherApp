@@ -9,18 +9,25 @@ import type {
     HourlyForecast
 } from "$lib/types/types";
 
+import { 
+    convert,
+    format
+} from "./converters";
 
-// Map current forecast
+
+
+// Map current forecasts
 export function mapCurrentForecasts(weatherData: WeatherData): CurrentForecast[] {
     const current: CurrentData = weatherData.current;
 
     return [
-        { title: "Feels like", info: `${current.apparent_temperature.toFixed(0)}°` },
+        { title: "Feels like", info: format(current.apparent_temperature, "temperature") },
         { title: "Humidity", info: `${current.relative_humidity_2m.toFixed(0)}%` },
-        { title: "Wind", info: `${current.wind_speed_10m.toFixed(0)} km/h` },
-        { title: "Precipitation", info: `${current.precipitation.toFixed(0)} mm` },
+        { title: "Wind", info: format(current.wind_speed_10m, "wind") },
+        { title: "Precipitation", info: format(current.precipitation, "precipitation") },
     ];
 }
+
 
 
 // Map daily forecast
@@ -30,9 +37,9 @@ export function mapDailyForecasts(weatherData: WeatherData): DailyForecast[] {
     return daily.time.map((date, index) => {
         const day = date.toLocaleDateString("en-US", { weekday: "short" });
 
-        const minTempVal = daily.temperature_2m_min?.[index];
-        const maxTempVal = daily.temperature_2m_max?.[index];
         const weatherCode = daily.weather_code?.[index] ?? 0;
+        const minTempVal = convert(daily.temperature_2m_min?.[index], "temperature");
+        const maxTempVal = convert(daily.temperature_2m_max?.[index], "temperature");
 
         console.log(minTempVal, maxTempVal, weatherCode);
 
@@ -86,7 +93,7 @@ export function mapHourlyForecasts(
             hour12: true
         });
 
-        const temperatureValue = hourly.temperature_2m?.[index];
+        const temperatureValue = convert(hourly.temperature_2m?.[index], "temperature");
         const weatherCode = hourly.weather_code?.[index] ?? 0;
 
         console.log(temperatureValue, weatherCode);
