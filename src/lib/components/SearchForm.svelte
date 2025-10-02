@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Geocoding } from "$lib/types/types";
-    import { searchCities } from "$lib/utils/api";
+    import { searchCities } from "$lib/utils/searchRequest";
     import { fly } from "svelte/transition";
 
     import searchIcon from "$lib/assets/images/icon-search.svg";

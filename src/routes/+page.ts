@@ -3,18 +3,21 @@ import { error } from "@sveltejs/kit";
 
 
 export const load = async ({ url }) => {
-    const cityName = url.searchParams.get("city")?.trim() ?? "Abidjan";
+    const cityName = url.searchParams.get("city")?.trim() ?? "Berlin";
 
     if (!cityName || cityName === "") {
         return error(400, {
             message: "City name is required !"
         });
-    } else if (cityName.length < 3) {
+    }
+    
+    if (cityName.length < 3) {
         return error(400, {
             message: "Please enter a valid city name"
         });
     }
 
+    
     try {
         const geocoding = await getCityGeocoding(cityName);
         const weatherData = await getCityWeatherData(

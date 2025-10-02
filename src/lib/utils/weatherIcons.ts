@@ -8,42 +8,34 @@ import fog from "$lib/assets/images/icon-fog.webp";
 import drizzle from "$lib/assets/images/icon-drizzle.webp";
 
 
+const weatherIcons: Record<number, string> = {
+  0: sunny,
+  1: sunny,
+  2: partlyCloudy,
+  3: overCast,
+  45: fog,
+  48: fog,
+  51: drizzle,
+  53: drizzle,
+  55: drizzle,
+  61: rain,
+  63: rain,
+  65: rain,
+  80: rain,
+  81: rain,
+  82: rain,
+  71: snow,
+  73: snow,
+  75: snow,
+  77: snow,
+  85: snow,
+  86: snow,
+  95: storm,
+  96: storm,
+  99: storm,
+};
+
 
 export function getWeatherIcon(code: number): string {
-    switch (code) {
-        case 0: // Clear sky
-        case 1: // Mainly clear
-            return sunny;
-        case 2: // Partly cloudy
-            return partlyCloudy;
-        case 3: // Overcast
-            return overCast;
-        case 45: // Fog
-        case 48: // Depositing rime fog
-            return fog;
-        case 51: // Drizzle: Light
-        case 53: // Drizzle: Moderate
-        case 55: // Drizzle: Dense
-            return drizzle;
-        case 61: // Rain: Slight
-        case 63: // Rain: Moderate
-        case 65: // Rain: Heavy
-        case 80: // Rain showers: Slight
-        case 81: // Rain showers: Moderate
-        case 82: // Rain showers: Violent
-            return rain;
-        case 71: // Snow fall: Slight
-        case 73: // Snow fall: Moderate
-        case 75: // Snow fall: Heavy
-        case 77: // Snow grains
-        case 85: // Snow showers slight
-        case 86: // Snow showers heavy
-            return snow;
-        case 95: // Thunderstorm: Slight or moderate
-        case 96: // Thunderstorm with slight hail
-        case 99: // Thunderstorm with heavy hail
-            return storm;
-        default:
-            return sunny;
-    }
+  return weatherIcons[code] ?? sunny;
 }

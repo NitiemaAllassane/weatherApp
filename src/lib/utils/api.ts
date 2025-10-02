@@ -1,42 +1,49 @@
 import { fetchWeatherApi } from 'openmeteo';
 import type { Geocoding,  WeatherData} from '$lib/types/types';
+import { assertExists } from './helpers';
 
 
 
-// Search Cities for suggesing to users
-export async function searchCities(query: string, limit: number = 5): Promise<Geocoding[]> {
-    if (!query || query.length < 2) return [];
-
+// Get city Geocoding
+export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
     try {
+
         const response = await fetch(
             `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-            query
-            )}&count=${limit}&language=en&format=json`
+            cityName
+            )}&count=1&language=en&format=json`
         );
 
         if (!response.ok) {
-            throw new Error(`Failed to search cities for "${query}"`);
+            throw new Error(`Unable to fetch geocoding for "${cityName}" !`);
         }
 
-        const data = await response.json();
+        const geocodingData = await response.json();
 
-        if (!data.results || data.results.length === 0) {
-            return [];
+        if (!geocodingData.results || geocodingData.results.length === 0) {
+            throw new Error(`No search result found for "${cityName}"!`);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return data.results.map((result: any) => ({
+        const result = geocodingData.results[0];
+
+        return {
             latitude: result.latitude,
             longitude: result.longitude,
             name: result.name,
             country: result.country,
             timezone: result.timezone,
-        }));
+        };
+
     } catch (error) {
-        console.error("City search error:", error);
-        return [];
+        console.error("Geocoding fetch error:", error);
+        throw new Error(
+            error instanceof Error
+            ? error.message
+            : "Unexpected error while fetching geocoding"
+        );
     }
 }
+
 
 
 
@@ -141,51 +148,3 @@ export async function getCityWeatherData(
     }
 }
 
-
-// Function to check if weather datas exist
-function assertExists<T>(v: T | null | undefined, message: string): T {
-    if (v === null || v === undefined) throw new Error(message);
-    return v;
-}
-
-
-
-// Get city Geocoding
-export async function getCityGeocoding(cityName: string): Promise<Geocoding> {
-    try {
-
-        const response = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
-            cityName
-            )}&count=1&language=en&format=json`
-        );
-
-        if (!response.ok) {
-            throw new Error(`Unable to fetch geocoding for "${cityName}" !`);
-        }
-
-        const geocodingData = await response.json();
-
-        if (!geocodingData.results || geocodingData.results.length === 0) {
-            throw new Error(`No search result found for "${cityName}"!`);
-        }
-
-        const result = geocodingData.results[0];
-
-        return {
-            latitude: result.latitude,
-            longitude: result.longitude,
-            name: result.name,
-            country: result.country,
-            timezone: result.timezone,
-        };
-
-    } catch (error) {
-        console.error("Geocoding fetch error:", error);
-        throw new Error(
-            error instanceof Error
-            ? error.message
-            : "Unexpected error while fetching geocoding"
-        );
-    }
-}
