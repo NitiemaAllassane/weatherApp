@@ -40,7 +40,7 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [GitHub Repository](https://github.com/NitiemaAllassane/weatherApp)
+- Solution URL: [Frontend Mentor](https://www.frontendmentor.io/solutions/weather-forecast-app---sveltekit-with-dynamic-search-and-unit-conversi-Flcuz7Bwvv)
 - Live Site URL: [Live Demo](https://weather-app-zeta-five-54.vercel.app/)
 
 ## My process
